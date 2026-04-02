@@ -46,18 +46,25 @@ export default function World1Task4Screen() {
   const [sceneIndex, setSceneIndex] = useState(0);
   const scene = WORLD1_TASK4.scenes[sceneIndex];
   const valueOptions = useMemo(() => buildValueOptions(scene?.correctValue), [scene?.correctValue]);
+
+  const [stageStep, setStageStep] = useState('action');
   const [actionCorrect, setActionCorrect] = useState(false);
-  const [actionPicked, setActionPicked] = useState(false);
-  const [valuePicked, setValuePicked] = useState(false);
+
   const [popupOpen, setPopupOpen] = useState(false);
   const [popupTitle, setPopupTitle] = useState('');
   const [popupText, setPopupText] = useState('');
   const [popupOnClose, setPopupOnClose] = useState(null);
+
   const [endOpen, setEndOpen] = useState(false);
 
   useEffect(() => {
     setTopMessage(`${nameUpper} KEEP GOING`);
   }, [nameUpper]);
+
+  useEffect(() => {
+    setStageStep('action');
+    setActionCorrect(false);
+  }, [sceneIndex]);
 
   const pickTopMessage = useCallback(() => {
     setTopMessage((prev) => {
@@ -119,16 +126,6 @@ export default function World1Task4Screen() {
     setEndOpen(true);
   }, [correctActions, curiosityPoints, points, saveResults]);
 
-  const resetSceneState = useCallback(() => {
-    setActionCorrect(false);
-    setActionPicked(false);
-    setValuePicked(false);
-  }, []);
-
-  useEffect(() => {
-    resetSceneState();
-  }, [sceneIndex, resetSceneState]);
-
   const closePopup = useCallback(() => {
     setPopupOpen(false);
     setPopupTitle('');
@@ -156,37 +153,37 @@ export default function World1Task4Screen() {
 
   const handlePickAction = useCallback(
     (option) => {
-      if (!scene || popupOpen || endOpen || actionPicked) return;
+      if (!scene || popupOpen || endOpen || stageStep !== 'action') return;
 
       pickTopMessage();
 
       if (!option.correct) {
         const correct = scene.actionOptions.find((x) => x.correct);
+
         setPopupTitle('CORRECT ANSWER');
         setPopupText(correct ? correct.label : '—');
         setPopupOnClose(() => () => {
-          setActionPicked(true);
           setActionCorrect(true);
+          setStageStep('value');
         });
         setPopupOpen(true);
         return;
       }
 
-      setActionPicked(true);
       setActionCorrect(true);
       setCorrectActions((v) => v + 1);
       showFlash();
       window.setTimeout(() => setPoints((v) => v + 4), 420);
+      window.setTimeout(() => setStageStep('value'), 620);
     },
-    [actionPicked, endOpen, pickTopMessage, popupOpen, scene, showFlash]
+    [endOpen, pickTopMessage, popupOpen, scene, showFlash, stageStep]
   );
 
   const handlePickValue = useCallback(
     (option) => {
-      if (!scene || popupOpen || endOpen || !actionCorrect || valuePicked) return;
+      if (!scene || popupOpen || endOpen || !actionCorrect || stageStep !== 'value') return;
 
       pickTopMessage();
-      setValuePicked(true);
 
       if (option.correct) {
         showFlash();
@@ -200,7 +197,7 @@ export default function World1Task4Screen() {
       setPopupOnClose(() => () => advanceScene());
       setPopupOpen(true);
     },
-    [actionCorrect, advanceScene, endOpen, pickTopMessage, popupOpen, scene, showFlash, valuePicked]
+    [actionCorrect, advanceScene, endOpen, pickTopMessage, popupOpen, scene, showFlash, stageStep]
   );
 
   const fmt = useCallback((n) => {
@@ -228,31 +225,27 @@ export default function World1Task4Screen() {
             text={scene?.statement || ''}
           />
 
-          <div className={styles.dualQuizWrap}>
-            <div className={styles.quizColumn}>
-              <QuizAnswerGrid
-                equalRows
-                answers={(scene?.actionOptions || []).map((option) => ({
-                  key: option.key,
-                  label: option.label,
-                  onClick: () => handlePickAction(option),
-                  disabled: actionPicked || popupOpen || endOpen,
-                }))}
-              />
-            </div>
-
-            <div className={styles.quizColumn}>
-              <QuizAnswerGrid
-                equalRows
-                answers={valueOptions.map((option) => ({
-                  key: option.key,
-                  label: option.label,
-                  onClick: () => handlePickValue(option),
-                  disabled: !actionCorrect || valuePicked || popupOpen || endOpen,
-                }))}
-              />
-            </div>
-          </div>
+          {stageStep === 'action' ? (
+            <QuizAnswerGrid
+              equalRows
+              answers={(scene?.actionOptions || []).map((option) => ({
+                key: option.key,
+                label: option.label,
+                onClick: () => handlePickAction(option),
+                disabled: popupOpen || endOpen,
+              }))}
+            />
+          ) : (
+            <QuizAnswerGrid
+              equalRows
+              answers={valueOptions.map((option) => ({
+                key: option.key,
+                label: option.label,
+                onClick: () => handlePickValue(option),
+                disabled: popupOpen || endOpen,
+              }))}
+            />
+          )}
         </div>
       </div>
 
