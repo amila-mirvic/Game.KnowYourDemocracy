@@ -62,24 +62,25 @@
 
 @media (max-width: 767px) {
   .pageBody {
-    padding-top: 30px;
-    padding-bottom: 4px;
+    padding-top: 70px; 
+    padding-bottom: 12px;
+    align-items: center; 
   }
 
   .stage {
     width: calc(100vw - 18px);
-    gap: 8px;
-    transform: translateY(-36px);
+    gap: 10px;
+    transform: none; 
   }
 
   .questionTight :global(.card) {
-    min-height: 142px;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    min-height: 140px;
+    padding-top: 14px;
+    padding-bottom: 14px;
   }
 
   .questionTight :global(.text) {
     font-size: 18px;
-    line-height: 1.08;
+    line-height: 1.1;
   }
 }
