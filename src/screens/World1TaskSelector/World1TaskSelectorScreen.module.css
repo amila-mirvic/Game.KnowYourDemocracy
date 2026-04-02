@@ -42,7 +42,6 @@
   text-align: center;
 }
 
-/* ✅ Narrower mobile layout */
 .taskRail {
   width: 90%;
   max-width: 360px;
@@ -50,13 +49,12 @@
   flex-direction: column;
   gap: 14px;
   z-index: 10;
-  margin-top: -30px;
+  margin-top: 8px;
   flex: 1;
   min-height: 0;
   justify-content: center;
 }
 
-/* ✅ Bigger icons + thinner buttons */
 .taskItem {
   width: 100%;
   display: flex;
@@ -114,8 +112,6 @@
   color: rgba(202, 88, 64, 0.4);
 }
 
-/* ================= BADGE BUTTON ================= */
-
 .achBtn {
   position: fixed;
   top: 10px;
@@ -128,7 +124,7 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  z-index: 2000; /* always above */
+  z-index: 2000;
   border: none;
   cursor: pointer;
 }
@@ -158,6 +154,11 @@
 /* ================= TABLET ================= */
 
 @media (min-width: 768px) {
+  .taskRail {
+    max-width: 520px;
+    gap: 18px;
+  }
+
   .taskIconWrap {
     width: 90px;
     height: 90px;
@@ -182,109 +183,191 @@
     padding: 0;
   }
 
-  /* ✅ TWO COLUMNS + MOVED DOWN */
   .taskRail {
     position: absolute;
-    left: 55px;
-    top: 130px; /* ⬇ moved down */
-
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 100px;
-    row-gap: 70px;
-
-    width: 1100px;
-    margin-top: 0;
-    z-index: 10;
+    left: 50%;
+    top: 56%;
+    transform: translate(-50%, -50%);
+    width: min(1080px, calc(100vw - 120px));
     max-width: none;
+    margin-top: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(300px, 1fr));
+    justify-items: center;
+    column-gap: 80px;
+    row-gap: 34px;
+    z-index: 10;
   }
 
   .taskItem {
+    width: 100%;
+    max-width: 360px;
     background: transparent;
     padding: 0;
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 45px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 14px;
   }
 
   .taskIconWrap {
-    width: 200px;
-    height: 200px;
+    width: 170px;
+    height: 170px;
+    flex: 0 0 170px;
     background: transparent;
+    transition: transform 0.2s ease, filter 0.2s ease;
   }
 
   .taskIconWrap:hover {
-    background: rgba(255, 255, 255, 0.35);
     transform: scale(1.03);
+    filter: brightness(1.03);
   }
 
   .taskIcon {
-    width: 210px;
-    height: 210px;
+    width: 170px;
+    height: 170px;
+    object-fit: contain;
+    border-radius: 999px;
   }
 
   .taskBtn {
-    height: 90px;
-    font-size: 18px;
+    width: 100%;
+    max-width: 310px;
+    height: 58px;
+    font-size: 16px;
     border-radius: 16px;
-    padding: 0 32px;
+    padding: 0 20px;
+    flex: none;
   }
 
   .bubble {
     position: absolute;
-    right: 70px;
-    top: 60px;
-    width: 760px;
-    height: 130px;
-    padding: 0 26px;
+    right: 42px;
+    top: 34px;
+    width: 640px;
+    min-height: 110px;
+    padding: 18px 24px;
     display: flex;
     align-items: center;
     max-width: none;
   }
 
   .bubbleText {
-    font-size: 22px;
+    font-size: 20px;
     text-align: left;
+    line-height: 1.3;
   }
 
   .characterWrap {
-    display: block;
-    position: absolute;
-    left: 780px;
-    top: -40px;
-    width: 650px;
-    height: 1000px;
-    pointer-events: none;
-    z-index: 5;
-  }
-
-  .characterImg {
-    height: 1000px;
+    display: none;
   }
 
   .achBtn {
     position: absolute;
-    top: 34px;
-    right: 42px;
+    top: 24px;
+    right: 24px;
     width: 60px;
     height: 60px;
   }
 
   .achPanel {
     position: absolute;
-    top: 110px;
-    right: 42px;
+    top: 94px;
+    right: 24px;
+    width: 420px;
+    max-width: calc(100vw - 48px);
+  }
+}
+
+/* ================= SMALLER DESKTOP / LAPTOP ================= */
+
+@media (min-width: 1025px) and (max-height: 900px) {
+  .taskRail {
+    top: 57%;
+    width: min(980px, calc(100vw - 80px));
+    column-gap: 60px;
+    row-gap: 24px;
+  }
+
+  .taskItem {
+    max-width: 320px;
+    gap: 10px;
+  }
+
+  .taskIconWrap {
+    width: 145px;
+    height: 145px;
+    flex: 0 0 145px;
+  }
+
+  .taskIcon {
+    width: 145px;
+    height: 145px;
+  }
+
+  .taskBtn {
+    max-width: 270px;
+    height: 50px;
+    font-size: 14px;
+  }
+
+  .bubble {
     width: 560px;
+    min-height: 96px;
+    padding: 14px 18px;
+  }
+
+  .bubbleText {
+    font-size: 18px;
+  }
+}
+
+/* ================= VERY SHORT DESKTOP ================= */
+
+@media (min-width: 1025px) and (max-height: 760px) {
+  .taskRail {
+    top: 58%;
+    row-gap: 18px;
+  }
+
+  .taskIconWrap {
+    width: 128px;
+    height: 128px;
+    flex: 0 0 128px;
+  }
+
+  .taskIcon {
+    width: 128px;
+    height: 128px;
+  }
+
+  .taskBtn {
+    height: 44px;
+    font-size: 13px;
+    max-width: 240px;
+  }
+
+  .bubble {
+    width: 500px;
+    min-height: 84px;
+  }
+
+  .bubbleText {
+    font-size: 16px;
   }
 }
 
 /* ================= ANIMATIONS ================= */
 
-
 @keyframes achIn {
-  from { opacity: 0; transform: translateY(-8px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .achRow {
@@ -319,76 +402,31 @@
 .badgeRow {
   margin-top: 14px;
   display: flex;
-  gap: 12px;
   flex-wrap: wrap;
+  gap: 10px;
 }
 
-.badgeImg {
-  width: 74px;
-  height: 50px;
+.badgeItem {
+  width: 54px;
+  height: 54px;
   object-fit: contain;
 }
 
-.badgeEmpty {
-  font-family: "Tomorrow", sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  color: #1d1d1d;
+.taskBtnPulse {
+  animation: taskPulse 1.4s ease-in-out infinite;
 }
 
-/* === DESKTOP FLUID FIX === */
-@media (min-width:1024px){
-
-:root{
-  --task-max-width: min(900px, 90vw);
-}
-
-.character img,
-.characterImage{
-  max-height:60vh;
-  width:auto;
-  object-fit:contain;
-}
-
-.instructionsCharacter img{
-  max-height:55vh;
-}
-
-.card,
-.statementCard,
-.taskCard{
-  max-width:var(--task-max-width);
-  margin-left:auto;
-  margin-right:auto;
-}
-
-.options,
-.answers,
-.answerOptions{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:clamp(10px,2vw,22px);
-}
-
-.options img,
-.answers img,
-.answerOptions img{
-  width:clamp(48px,5vw,90px);
-  height:auto;
-}
-
-button,
-.optionButton{
-  font-size:clamp(14px,1.2vw,18px);
-}
-
-h1,h2{
-  font-size:clamp(24px,3vw,40px);
-}
-
-p{
-  font-size:clamp(14px,1.2vw,18px);
-}
-
+@keyframes taskPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(202, 88, 64, 0.35);
+  }
+  70% {
+    transform: scale(1.03);
+    box-shadow: 0 0 0 12px rgba(202, 88, 64, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(202, 88, 64, 0);
+  }
 }
