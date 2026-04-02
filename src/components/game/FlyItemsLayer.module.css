@@ -1,28 +1,81 @@
-.wrap {
+.layer {
   position: fixed;
-  z-index: 24;
+  inset: 0;
   pointer-events: none;
-  animation: travel .82s cubic-bezier(.2,.8,.2,1) forwards;
+  z-index: 9999;
+  overflow: visible;
 }
-.inner {
+
+.flyItem {
+  position: fixed;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   transform: translate(-50%, -50%);
+  animation: flyToTarget 0.82s ease-in-out forwards;
+  will-change: transform, opacity;
 }
+
+/* 🔥 VEĆA IKONICA + GLOW */
 .icon {
-  width: 34px;
-  height: 34px;
+  width: 52px;
+  height: 52px;
   object-fit: contain;
+  display: block;
+
+  filter:
+    drop-shadow(0 0 6px rgba(255, 255, 255, 1))
+    drop-shadow(0 0 14px rgba(255, 255, 255, 0.8))
+    drop-shadow(0 0 24px rgba(255, 255, 255, 0.5));
 }
+
+/* 🔥 CRNI TEKST + LIGHT GLOW */
 .delta {
-  color: #fff;
   font-family: "Tomorrow", sans-serif;
-  font-weight: 800;
-  font-size: 18px;
-  text-shadow: 0 4px 12px rgba(0,0,0,.4);
+  font-weight: 900;
+  font-size: 26px;
+  line-height: 1;
+  color: #000000;
+
+  text-shadow:
+    0 0 6px rgba(255, 255, 255, 1),
+    0 0 10px rgba(255, 255, 255, 0.8),
+    0 2px 6px rgba(0, 0, 0, 0.4);
 }
-@keyframes travel {
-  from { transform: translate3d(0, 0, 0); opacity: 1; }
-  to { transform: translate3d(calc(var(--toX) - var(--fromX)), calc(var(--toY) - var(--fromY)), 0); opacity: 0; }
+
+@keyframes flyToTarget {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  60% {
+    transform: translate(
+        calc(-50% + var(--dx) * 0.85),
+        calc(-50% + var(--dy) * 0.85)
+      )
+      scale(1.05); /* ✨ mali pop */
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(
+        calc(-50% + var(--dx)),
+        calc(-50% + var(--dy))
+      )
+      scale(0.8);
+    opacity: 0;
+  }
+}
+
+/* 📱 MOBILE */
+@media (max-width: 768px) {
+  .icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .delta {
+    font-size: 20px;
+  }
 }
