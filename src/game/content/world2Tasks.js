@@ -66,10 +66,10 @@ export const WORLD2_TASK1 = {
     missleading: `${process.env.PUBLIC_URL}/world1/task1/missleading.png`,
   },
   badges: {
-    beginner: `${process.env.PUBLIC_URL}/world2/task1/beginner.png`,
-    advanced: `${process.env.PUBLIC_URL}/world2/task1/advanced.png`,
-    expert: `${process.env.PUBLIC_URL}/world2/task1/expert.png`,
-    curiosity: `${process.env.PUBLIC_URL}/world2/task1/curiosity.png`,
+    beginner: `${process.env.PUBLIC_URL}/world1/task1/beginner.png`,
+    advanced: `${process.env.PUBLIC_URL}/world1/task1/advanced.png`,
+    expert: `${process.env.PUBLIC_URL}/world1/task1/expert.png`,
+    curiosity: `${process.env.PUBLIC_URL}/world1/task1/curiosity.png`,
   },
   statements: [
     {
@@ -151,9 +151,9 @@ export const WORLD2_TASK2 = {
   curiosityIcon: `${process.env.PUBLIC_URL}/world1/task1/curiositypoints.png`,
   whyIcon: `${process.env.PUBLIC_URL}/world1/task1/why.png`,
   badges: {
-    beginner: `${process.env.PUBLIC_URL}/world2/task2/beginner.png`,
-    advanced: `${process.env.PUBLIC_URL}/world2/task2/advanced.png`,
-    expert: `${process.env.PUBLIC_URL}/world2/task2/expert.png`,
+    beginner: `${process.env.PUBLIC_URL}/world1/task1/beginner.png`,
+    advanced: `${process.env.PUBLIC_URL}/world1/task1/advanced.png`,
+    expert: `${process.env.PUBLIC_URL}/world1/task1/expert.png`,
   },
   scenarios: [
     {
@@ -236,9 +236,9 @@ export const WORLD2_TASK3 = {
   pointsIcon: `${process.env.PUBLIC_URL}/world1/task1/points.png`,
   curiosityIcon: `${process.env.PUBLIC_URL}/world1/task1/curiositypoints.png`,
   badges: {
-    beginner: `${process.env.PUBLIC_URL}/world2/task3/beginner.png`,
-    advanced: `${process.env.PUBLIC_URL}/world2/task3/advanced.png`,
-    expert: `${process.env.PUBLIC_URL}/world2/task3/expert.png`,
+    beginner: `${process.env.PUBLIC_URL}/world1/task1/beginner.png`,
+    advanced: `${process.env.PUBLIC_URL}/world1/task1/advanced.png`,
+    expert: `${process.env.PUBLIC_URL}/world1/task1/expert.png`,
   },
   rounds: [
     {
