@@ -18,6 +18,7 @@ export default function World3TaskSelectorScreen() {
   const achPanelRef = useRef(null);
   const achBtnRef = useRef(null);
   const [achOpen, setAchOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(() => window.innerWidth >= 1025);
 
   useEffect(() => {
     const onDown = (event) => {
@@ -31,6 +32,15 @@ export default function World3TaskSelectorScreen() {
     window.addEventListener('mousedown', onDown);
     return () => window.removeEventListener('mousedown', onDown);
   }, [achOpen]);
+
+  useEffect(() => {
+    const onResize = () => {
+      setIsDesktop(window.innerWidth >= 1025);
+    };
+
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   const resolveBadgeSrc = useCallback((badge) => {
     if (!badge) return '';
@@ -70,6 +80,46 @@ export default function World3TaskSelectorScreen() {
     },
   ];
 
+  const desktopRailStyle = isDesktop
+    ? {
+        position: 'absolute',
+        left: '50%',
+        top: '54%',
+        transform: 'translate(-50%, -50%)',
+        width: 'min(980px, calc(100vw - 140px))',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, minmax(280px, 1fr))',
+        justifyItems: 'center',
+        alignItems: 'start',
+        columnGap: '110px',
+        rowGap: '34px',
+        zIndex: 10,
+      }
+    : {};
+
+  const mobileRailStyle = !isDesktop
+    ? {
+        width: '90%',
+        maxWidth: '360px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '14px',
+        zIndex: 10,
+        marginTop: '8px',
+        flex: 1,
+        minHeight: 0,
+        justifyContent: 'center',
+      }
+    : {};
+
+  const itemWrapStyle = isDesktop
+    ? {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+      }
+    : {};
+
   return (
     <div className={styles.screen} style={{ '--bg': `url(${bgUrl})`, backgroundImage: `url(${bgUrl})` }}>
       <div className={styles.overlay}>
@@ -91,16 +141,17 @@ export default function World3TaskSelectorScreen() {
           resolveBadgeSrc={resolveBadgeSrc}
         />
 
-        <div className={styles.taskRail}>
+        <div style={{ ...mobileRailStyle, ...desktopRailStyle }}>
           {tasks.map((task) => (
-            <TaskSelectorItem
-              key={task.key}
-              image={task.image}
-              alt={`Task ${task.key}`}
-              buttonLabel={task.label}
-              pulsing={task.pulse}
-              onClick={() => navigate(task.route, { state: player })}
-            />
+            <div key={task.key} style={itemWrapStyle}>
+              <TaskSelectorItem
+                image={task.image}
+                alt={`Task ${task.key}`}
+                buttonLabel={task.label}
+                pulsing={task.pulse}
+                onClick={() => navigate(task.route, { state: player })}
+              />
+            </div>
           ))}
         </div>
       </div>
