@@ -61,7 +61,7 @@ export default function QuizAnswerGridMultiple({
 
       <div className={styles.footer}>
         <div className={styles.helper}>
-          {maxSelections ? `SELECT UP TO ${maxSelections}` : 'SELECT THE CORRECT ANSWERS'}
+          {'YOU CAN SELECT MULTIPLE ANSWERS'}
         </div>
 
         <button

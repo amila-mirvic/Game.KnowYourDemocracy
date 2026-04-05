@@ -171,15 +171,9 @@ export default function World3Task4Screen() {
     (key) => {
       if (!current || modalOpen || endOpen) return;
 
-      const maxSelections = current.maxSelections || getCorrectKeys(current).length || 1;
-
       setSelectedKeys((prev) => {
         if (prev.includes(key)) {
           return prev.filter((item) => item !== key);
-        }
-
-        if (prev.length >= maxSelections) {
-          return prev;
         }
 
         return [...prev, key];
@@ -188,84 +182,91 @@ export default function World3Task4Screen() {
     [current, endOpen, modalOpen]
   );
 
-  const handleSubmit = useCallback(() => {
-    if (!current || selectedKeys.length === 0 || modalOpen || endOpen) return;
+const handleSubmit = useCallback(() => {
+  if (!current || selectedKeys.length === 0 || modalOpen || endOpen) return;
 
-    pickTopMessage();
+  pickTopMessage();
 
-    const correctKeys = getCorrectKeys(current);
-    const correctLabels = getCorrectAnswerLabels(current);
+  const correctKeys = getCorrectKeys(current);
+  const correctLabels = getCorrectAnswerLabels(current);
 
-    const correctSelected = selectedKeys.filter((key) => correctKeys.includes(key));
-    const wrongSelected = selectedKeys.filter((key) => !correctKeys.includes(key));
+  const correctSelected = selectedKeys.filter((key) => correctKeys.includes(key));
+  const wrongSelected = selectedKeys.filter((key) => !correctKeys.includes(key));
 
-    const allCorrect =
-      wrongSelected.length === 0 && correctSelected.length === correctKeys.length;
+  const allCorrect =
+    wrongSelected.length === 0 && correctSelected.length === correctKeys.length;
 
-    const stepPointsFromOptions =
-      (current.options || [])
-        .filter((option) => correctSelected.includes(option.key))
-        .reduce((sum, option) => sum + (option.points || 0), 0);
+  const stepPointsFromOptions =
+    (current.options || [])
+      .filter((option) => correctSelected.includes(option.key))
+      .reduce((sum, option) => sum + (option.points || 0), 0);
 
-    const fallbackPoints =
-      current.multi === false
-        ? allCorrect
-          ? 4
-          : 0
-        : correctSelected.length * 2;
+  const fallbackPoints =
+    current.multi === false
+      ? allCorrect
+        ? 4
+        : 0
+      : correctSelected.length * 2;
 
-    const gained = allCorrect
-      ? stepPointsFromOptions > 0
-        ? stepPointsFromOptions
-        : fallbackPoints
-      : 0;
+  const gained = allCorrect
+    ? stepPointsFromOptions > 0
+      ? stepPointsFromOptions
+      : fallbackPoints
+    : 0;
 
-    const nextTotal = points + gained;
-    const isLast = stepIndex === WORLD3_TASK4.steps.length - 1;
+  const nextTotal = points + gained;
+  const isLast = stepIndex === WORLD3_TASK4.steps.length - 1;
 
-    if (allCorrect) {
-      showFlash();
+  if (allCorrect) {
+    showFlash();
 
-      makeFly({
-        type: 'points',
-        icon: WORLD3_TASK4.pointsIcon,
-        delta: `+${gained}`,
-      });
-
-      setModalText(current.feedback || 'Strong strategy.');
-    } else {
-      setModalText(
-        `NOT THE BEST STRATEGY.\n\nCORRECT ANSWER${correctLabels.length > 1 ? 'S' : ''}:\n${correctLabels.join('\n')}`
-      );
-    }
-
-    setModalOpen(true);
+    makeFly({
+      type: 'points',
+      icon: WORLD3_TASK4.pointsIcon,
+      delta: `+${gained}`,
+    });
 
     window.setTimeout(() => {
-      if (allCorrect && gained > 0) {
+      if (gained > 0) {
         setPoints(nextTotal);
       }
-
-      setModalOpen(false);
 
       if (isLast) {
         finishTask(nextTotal);
       } else {
         setStepIndex((prev) => prev + 1);
       }
-    }, 1000);
-  }, [
-    current,
-    endOpen,
-    finishTask,
-    makeFly,
-    modalOpen,
-    pickTopMessage,
-    points,
-    selectedKeys,
-    showFlash,
-    stepIndex,
-  ]);
+    }, 850);
+
+    return;
+  }
+
+  setModalText(
+    `NOT THE BEST STRATEGY.\n\nCORRECT ANSWER${correctLabels.length > 1 ? 'S' : ''}:\n${correctLabels.join('\n')}`
+  );
+  setModalOpen(true);
+
+  window.setTimeout(() => {
+    setModalOpen(false);
+
+    if (isLast) {
+      finishTask(nextTotal);
+    } else {
+      setStepIndex((prev) => prev + 1);
+    }
+  }, 1000);
+}, [
+  current,
+  endOpen,
+  finishTask,
+  makeFly,
+  modalOpen,
+  pickTopMessage,
+  points,
+  selectedKeys,
+  showFlash,
+  stepIndex,
+]);
 
   const displayPoints = endOpen ? finalPoints : points;
   const earnedBadges = useMemo(() => [resolveSkillBadge(displayPoints)], [displayPoints]);
@@ -298,12 +299,6 @@ export default function World3Task4Screen() {
           cardRef={cardRef}
           title={current?.title || ''}
           text={current?.text || current?.statement || ''}
-          whyIcon={WORLD3_TASK4.whyIcon}
-          onWhy={() => {
-            const count = getCorrectKeys(current).length;
-            setModalText(`SELECT ${count} CORRECT ANSWER${count > 1 ? 'S' : ''}.`);
-            setModalOpen(true);
-          }}
         />
 
         <QuizAnswerGridMultiple
@@ -315,8 +310,8 @@ export default function World3Task4Screen() {
           onToggle={handleToggle}
           onSubmit={handleSubmit}
           disabled={modalOpen || endOpen}
-          maxSelections={current?.maxSelections || getCorrectKeys(current).length || 1}
           submitLabel={current?.submitLabel || 'CONFIRM'}
+          helperText="YOU CAN SELECT MULTIPLE ANSWERS"
         />
       </div>
 
