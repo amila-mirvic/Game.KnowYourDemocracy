@@ -1,0 +1,138 @@
+.shell {
+  width: min(1120px, 100%);
+  padding: 34px 42px;
+  border-radius: 36px;
+  border: 6px solid #f4bc1f;
+  background: #cb5b3f;
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 34px 46px;
+  align-items: start;
+}
+
+.column {
+  display: grid;
+  gap: 20px;
+}
+
+.card,
+.placeholder {
+  min-height: 92px;
+  border-radius: 16px;
+  box-sizing: border-box;
+}
+
+.card {
+  border: 0;
+  background: #f3f3f3;
+  box-shadow: 0 8px 18px rgba(120, 40, 22, 0.18);
+  padding: 18px 24px;
+  cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease,
+    background 0.16s ease, outline-color 0.16s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  outline: 3px solid transparent;
+  outline-offset: -3px;
+}
+
+.card:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(120, 40, 22, 0.24);
+}
+
+.card:disabled {
+  cursor: default;
+}
+
+.selected {
+  background: #ffffff;
+  outline-color: #f7d76c;
+  box-shadow: 0 0 0 2px rgba(247, 215, 108, 0.35), 0 10px 24px rgba(120, 40, 22, 0.22);
+}
+
+.wrong {
+  background: #e4a090;
+  opacity: 0.72;
+}
+
+.placeholder {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.label {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #ca5a3f;
+  font-size: clamp(15px, 1.45vw, 21px);
+  line-height: 1.18;
+}
+
+@media (max-width: 1024px) {
+  .shell {
+    padding: 26px 28px;
+    border-radius: 28px;
+  }
+
+  .grid {
+    gap: 24px 24px;
+  }
+
+  .column {
+    gap: 16px;
+  }
+
+  .card,
+  .placeholder {
+    min-height: 84px;
+  }
+
+  .card {
+    padding: 16px 18px;
+  }
+
+  .label {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 767px) {
+  .shell {
+    padding: 18px 16px;
+    border-width: 5px;
+    border-radius: 24px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .column {
+    gap: 14px;
+  }
+
+  .card,
+  .placeholder {
+    min-height: 72px;
+  }
+
+  .card {
+    padding: 14px 16px;
+    border-radius: 14px;
+  }
+
+  .label {
+    font-size: 15px;
+    line-height: 1.14;
+  }
+}

@@ -9,6 +9,7 @@ import WorldSelectorScreen from "./screens/WorldSelector/WorldSelectorScreen";
 
 import World1TaskSelectorScreen from "./screens/World1TaskSelector/World1TaskSelectorScreen";
 import World2TaskSelectorScreen from "./screens/World2TaskSelector/World2TaskSelectorScreen";
+import World3TaskSelectorScreen from "./screens/World3TaskSelector/World3TaskSelectorScreen";
 
 import World1Task1IntroScreen from "./screens/World1Task1Intro/World1Task1IntroScreen";
 import World1Task1Screen from "./screens/World1Task1/World1Task1Screen";
@@ -32,6 +33,15 @@ import World2Task2Screen from "./screens/World2Task2Screen/World2Task2Screen";
 import World2Task3IntroScreen from "./screens/World2Task3IntroScreen/World2Task3IntroScreen";
 import World2Task3Screen from "./screens/World2Task3Screen/World2Task3Screen";
 
+import World3Task1IntroScreen from "./screens/World3Task1IntroScreen/World3Task1IntroScreen";
+import World3Task1Screen from "./screens/World3Task1Screen/World3Task1Screen";
+import World3Task2IntroScreen from "./screens/World3Task2IntroScreen/World3Task2IntroScreen";
+import World3Task2Screen from "./screens/World3Task2Screen/World3Task2Screen";
+import World3Task3IntroScreen from "./screens/World3Task3IntroScreen/World3Task3IntroScreen";
+import World3Task3Screen from "./screens/World3Task3Screen/World3Task3Screen";
+import World3Task4IntroScreen from "./screens/World3Task4IntroScreen/World3Task4IntroScreen";
+import World3Task4Screen from "./screens/World3Task4Screen/World3Task4Screen";
+
 import TaskRunnerScreen from "./screens/TaskRunner/TaskRunnerScreen";
 
 export default function App() {
@@ -45,6 +55,7 @@ export default function App() {
 
           <Route path="/world-1" element={<World1TaskSelectorScreen />} />
           <Route path="/world-2" element={<World2TaskSelectorScreen />} />
+          <Route path="/world-3" element={<World3TaskSelectorScreen />} />
 
           <Route path="/world-1/task-1-intro" element={<World1Task1IntroScreen />} />
           <Route path="/world-1/task-1" element={<World1Task1Screen />} />
@@ -67,6 +78,15 @@ export default function App() {
 
           <Route path="/world-2/task-3-intro" element={<World2Task3IntroScreen />} />
           <Route path="/world-2/task-3" element={<World2Task3Screen />} />
+
+          <Route path="/world-3/task-1-intro" element={<World3Task1IntroScreen />} />
+          <Route path="/world-3/task-1" element={<World3Task1Screen />} />
+          <Route path="/world-3/task-2-intro" element={<World3Task2IntroScreen />} />
+          <Route path="/world-3/task-2" element={<World3Task2Screen />} />
+          <Route path="/world-3/task-3-intro" element={<World3Task3IntroScreen />} />
+          <Route path="/world-3/task-3" element={<World3Task3Screen />} />
+          <Route path="/world-3/task-4-intro" element={<World3Task4IntroScreen />} />
+          <Route path="/world-3/task-4" element={<World3Task4Screen />} />
 
           <Route path="/world-1/task/:taskId" element={<TaskRunnerScreen />} />
 

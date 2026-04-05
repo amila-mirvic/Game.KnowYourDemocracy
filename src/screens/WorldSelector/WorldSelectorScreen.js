@@ -28,13 +28,13 @@ const WORLDS = [
   {
     id: 3,
     route: "/world-3",
-    title: "WORLD 3 - NAME",
+    title: "WORLD 3 - ACTIVE CITIZENSHIP",
     thumbTitle: "WORLD 3",
     image: `${process.env.PUBLIC_URL}/worlds/world3.png`,
-    playable: false,
-    disabled: true,
+    playable: true,
+    disabled: false,
     description:
-      "World 3 is currently locked. Its content will be added in a later phase, while the selector already supports it visually so the structure stays scalable.",
+      "In this world, you move from understanding democracy to practicing it. You will explore participation, barriers to engagement, strategic civic action, and how citizens can build real impact in their communities. Through practical situations and decision-making, you will learn that participation is not just about opinion, but about responsible action.",
   },
   {
     id: 4,
@@ -51,11 +51,7 @@ const WORLDS = [
 
 function ArrowLeftIcon() {
   return (
-    <svg
-      viewBox="0 0 448.011 448.011"
-      aria-hidden="true"
-      className={styles.arrowSvg}
-    >
+    <svg viewBox="0 0 448.011 448.011" aria-hidden="true" className={styles.arrowSvg}>
       <g transform="translate(448.011, 0) scale(-1, 1)">
         <path d="M438.731,209.463l-416-192c-6.624-3.008-14.528-1.216-19.136,4.48c-4.64,5.696-4.8,13.792-0.384,19.648l136.8,182.4l-136.8,182.4c-4.416,5.856-4.256,13.984,0.352,19.648c3.104,3.872,7.744,5.952,12.448,5.952c2.272,0,4.544-0.48,6.688-1.472l416-192c5.696-2.624,9.312-8.288,9.312-14.528S444.395,212.087,438.731,209.463z" />
       </g>
@@ -65,11 +61,7 @@ function ArrowLeftIcon() {
 
 function ArrowRightIcon() {
   return (
-    <svg
-      viewBox="0 0 448.011 448.011"
-      aria-hidden="true"
-      className={styles.arrowSvg}
-    >
+    <svg viewBox="0 0 448.011 448.011" aria-hidden="true" className={styles.arrowSvg}>
       <path d="M438.731,209.463l-416-192c-6.624-3.008-14.528-1.216-19.136,4.48c-4.64,5.696-4.8,13.792-0.384,19.648l136.8,182.4l-136.8,182.4c-4.416,5.856-4.256,13.984,0.352,19.648c3.104,3.872,7.744,5.952,12.448,5.952c2.272,0,4.544-0.48,6.688-1.472l416-192c5.696-2.624,9.312-8.288,9.312-14.528S444.395,212.087,438.731,209.463z" />
     </svg>
   );
@@ -165,14 +157,8 @@ export default function WorldSelectorScreen() {
         <div className={styles.worldCard}>
           <div className={styles.worldLeft}>
             <div className={styles.worldImageWrap}>
-              <img
-                src={activeWorld.image}
-                alt={activeWorld.title}
-                className={styles.worldImage}
-              />
-              {activeWorld.disabled && (
-                <div className={styles.disabledBadge}>LOCKED</div>
-              )}
+              <img src={activeWorld.image} alt={activeWorld.title} className={styles.worldImage} />
+              {activeWorld.disabled && <div className={styles.disabledBadge}>LOCKED</div>}
             </div>
 
             <div className={styles.worldLabel}>{activeWorld.title}</div>
@@ -186,9 +172,7 @@ export default function WorldSelectorScreen() {
 
             <button
               type="button"
-              className={`${styles.playBtn} ${
-                !activeWorld.playable ? styles.playBtnDisabled : ""
-              }`}
+              className={`${styles.playBtn} ${!activeWorld.playable ? styles.playBtnDisabled : ""}`}
               onClick={handlePlayWorld}
               disabled={!activeWorld.playable}
             >
@@ -203,9 +187,9 @@ export default function WorldSelectorScreen() {
               <button
                 key={world.id}
                 type="button"
-                className={`${styles.thumbCard} ${
-                  index === activeWorldIndex ? styles.thumbCardActive : ""
-                } ${world.disabled ? styles.thumbCardDisabled : ""}`}
+                className={`${styles.thumbCard} ${index === activeWorldIndex ? styles.thumbCardActive : ""} ${
+                  world.disabled ? styles.thumbCardDisabled : ""
+                }`}
                 onClick={() => handleSelectWorld(index)}
                 aria-label={`Select ${world.thumbTitle}`}
               >
@@ -227,21 +211,11 @@ export default function WorldSelectorScreen() {
           </div>
 
           <div className={styles.arrowControls}>
-            <button
-              type="button"
-              className={styles.arrowBtn}
-              onClick={goPrev}
-              aria-label="Previous world"
-            >
+            <button type="button" className={styles.arrowBtn} onClick={goPrev} aria-label="Previous world">
               <ArrowLeftIcon />
             </button>
 
-            <button
-              type="button"
-              className={styles.arrowBtn}
-              onClick={goNext}
-              aria-label="Next world"
-            >
+            <button type="button" className={styles.arrowBtn} onClick={goNext} aria-label="Next world">
               <ArrowRightIcon />
             </button>
           </div>
