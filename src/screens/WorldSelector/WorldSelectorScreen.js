@@ -91,9 +91,19 @@ export default function WorldSelectorScreen() {
   const [activeWorldIndex, setActiveWorldIndex] = useState(0);
   const [typedDescription, setTypedDescription] = useState("");
   const [typingDone, setTypingDone] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 767);
 
   const typingIntervalRef = useRef(null);
   const activeWorld = WORLDS[activeWorldIndex];
+
+  useEffect(() => {
+    const onResize = () => {
+      setIsMobile(window.innerWidth <= 767);
+    };
+
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   useEffect(() => {
     if (typingIntervalRef.current) {
@@ -107,6 +117,8 @@ export default function WorldSelectorScreen() {
     setTypedDescription("");
     setTypingDone(false);
 
+    const typeSpeed = isMobile ? 22 : 8;
+
     typingIntervalRef.current = setInterval(() => {
       index += 1;
       setTypedDescription(fullText.slice(0, index));
@@ -116,7 +128,7 @@ export default function WorldSelectorScreen() {
         typingIntervalRef.current = null;
         setTypingDone(true);
       }
-    }, 8);
+    }, typeSpeed);
 
     return () => {
       if (typingIntervalRef.current) {
@@ -124,7 +136,7 @@ export default function WorldSelectorScreen() {
         typingIntervalRef.current = null;
       }
     };
-  }, [activeWorld]);
+  }, [activeWorld, isMobile]);
 
   const goPrev = () => {
     setActiveWorldIndex((prev) => (prev === 0 ? WORLDS.length - 1 : prev - 1));
@@ -152,7 +164,10 @@ export default function WorldSelectorScreen() {
   return (
     <div className={styles.screen} style={bgStyle}>
       <div className={styles.overlay}>
-        <h1 className={styles.title}>HI {nameUpper} SELECT A WORLD TO PLAY IN</h1>
+        <h1 className={styles.title}>
+          <span className={styles.titleLine}>HI {nameUpper}</span>
+          <span className={styles.titleLine}>SELECT A WORLD TO PLAY IN</span>
+        </h1>
 
         <div className={styles.worldCard}>
           <div className={styles.worldLeft}>
